@@ -5,7 +5,7 @@ html,body {
 }
 
 body {
-  background: url('D:/Users/OneDrive/Documents/GitHub/ESME_SnakeGame/images/fond2d.jpeg');
+  background: url('../images/fond2d.jpeg');
   background-size: 17%;
   overflow: hidden;
 }

@@ -3,19 +3,15 @@
   <head>
     <meta charset="utf-8">
     <title>Space Invader</title>
-    <script src="jeu.js"></script>
+    <script src="scripts/jeu.js"></script>
     <link rel="stylesheet" href="style/style.css">
   </head>
   <body>
-    <img id="vaisseau" src="images/vaisseau.png">
 	<script type="text/javascript">
-		let v = document.getElementById('vaisseau');
-		v.style.width = '100px';
-		v.style.height = 'auto';
-		v.style.position = "absolute";
-		v.style.left= '200px';
-		v.style.top='100px';
-
+    let alien1 = new Sprite("images/invader.png",3*document.body.clientWidth/8, document.body.clientHeight/4);
+    let alien2 = new Sprite("images/invader.png",4*document.body.clientWidth/8, document.body.clientHeight/4);
+    let alien3 = new Sprite("images/invader.png",5*document.body.clientWidth/8, document.body.clientHeight/4);
+    let vaisseau = new Sprite("images/vaisseau.png", document.body.clientWidth/2, 3*document.body.clientHeight/4);
 	</script>
   </body>
 </html>
