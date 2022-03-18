@@ -1,0 +1,11 @@
+html,body {
+  margin : 0px; padding: 0px;
+  width : 100%;
+  height: 100%;
+}
+
+body {
+  background: url('D:/Users/OneDrive/Documents/GitHub/ESME_SnakeGame/images/fond2d.jpeg');
+  background-size: 17%;
+  overflow: hidden;
+}
