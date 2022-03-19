@@ -48,11 +48,33 @@ function Sprite(filename, abs,ord){
 	this.top = ord;
 }
 
+
+
 //positionnement des sprites
 let alien1 = new Sprite("images/invader.png",3*document.body.clientWidth/8, document.body.clientHeight/4);
 let alien2 = new Sprite("images/invader.png",4*document.body.clientWidth/8, document.body.clientHeight/4);
 let alien3 = new Sprite("images/invader.png",5*document.body.clientWidth/8, document.body.clientHeight/4);
 let vaisseau = new Sprite("images/vaisseau.png", document.body.clientWidth/2, 3*document.body.clientHeight/4);
+let missile = new Sprite("images/laser.png", vaisseau.left,vaisseau.top);
+missile.display = "none";
+
+var id = null;
+function myMove() {
+	missile.left = vaisseau.left;
+	var pos = vaisseau.top;
+  clearInterval(id);
+  id = setInterval(frame, 10);
+  function frame() {
+    if (pos == document.body.clientHeight) {
+      clearInterval(id);
+			missile.display = "none";
+    } else {
+			missile.display = "block";
+			pos -= 10;
+      missile.top = pos;
+    }
+  }
+}
 
 //function qui détecte lorsque l'on appuie sur un bouton
 document.onkeydown = function (event) {
@@ -73,7 +95,8 @@ document.onkeydown = function (event) {
 			vaisseau.left += 10;
 			break;
 		case 32:
-			missile.top += 400;
+			myMove();
+			// missile.top += 400;
 		default:
 	}
 } else if (vaisseau.left < 0) {
