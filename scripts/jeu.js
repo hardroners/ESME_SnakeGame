@@ -50,27 +50,13 @@ function Sprite(filename, abs,ord,size){
 
 
 //positionnement des sprites
-let alien1 = new Sprite("images/invader.png",2*document.body.clientWidth/16, document.body.clientHeight/4,60);
-let alien2 = new Sprite("images/invader.png",3*document.body.clientWidth/16, document.body.clientHeight/4,60);
-let alien3 = new Sprite("images/invader.png",4*document.body.clientWidth/16, document.body.clientHeight/4,60);
-let alien4 = new Sprite("images/invader.png",5*document.body.clientWidth/16, document.body.clientHeight/4,60);
-let alien5 = new Sprite("images/invader.png",6*document.body.clientWidth/16, document.body.clientHeight/4,60);
-let alien6 = new Sprite("images/invader.png",7*document.body.clientWidth/16, document.body.clientHeight/4,60);
-let alien7 = new Sprite("images/invader.png",8*document.body.clientWidth/16, document.body.clientHeight/4,60);
-let alien8 = new Sprite("images/invader.png",9*document.body.clientWidth/16, document.body.clientHeight/4,60);
-let alien9 = new Sprite("images/invader.png",10*document.body.clientWidth/16, document.body.clientHeight/4,60);
-let alien10 = new Sprite("images/invader.png",2*document.body.clientWidth/16, 2*document.body.clientHeight/4,60);
-let alien11 = new Sprite("images/invader.png",3*document.body.clientWidth/16, 2*document.body.clientHeight/4,60);
-let alien12 = new Sprite("images/invader.png",4*document.body.clientWidth/16, 2*document.body.clientHeight/4,60);
-let alien13 = new Sprite("images/invader.png",5*document.body.clientWidth/16, 2*document.body.clientHeight/4,60);
-let alien14 = new Sprite("images/invader.png",6*document.body.clientWidth/16, 2*document.body.clientHeight/4,60);
-let alien15 = new Sprite("images/invader.png",7*document.body.clientWidth/16, 2*document.body.clientHeight/4,60);
-let alien16 = new Sprite("images/invader.png",8*document.body.clientWidth/16, 2*document.body.clientHeight/4,60);
-let alien17 = new Sprite("images/invader.png",9*document.body.clientWidth/16, 2*document.body.clientHeight/4,60);
-
+let alien = [];
+for (var k = 0; k < 18; k++) {
+	alien.push(createAlien());
+}
 let vaisseau = new Sprite("images/vaisseau.png", document.body.clientWidth/2, 3*document.body.clientHeight/4,60);
-// let missile = new Sprite("images/laser.png", vaisseau.left,vaisseau.top,50);
-// missile.display = "none";
+let missile = new Sprite("images/laser.png", vaisseau.left + vaisseau._node.width/3,vaisseau.top,50);
+missile.display = "none";
 
 
 function getRandomInt(min, max) {
@@ -79,31 +65,33 @@ function getRandomInt(min, max) {
 
 
 function createAlien(){
-	let ramdompos = getRandomInt(1,16);
-	let alien = new Sprite("images/invader.png",ramdompos*document.body.clientWidth/16, document.body.clientHeight/4,60);
+	let ramdompos = getRandomInt(1,18);
+	let ramdompostop = getRandomInt(1,8);
+	let alien = new Sprite("images/invader.png",ramdompos*document.body.clientWidth/20,ramdompostop* document.body.clientHeight/12,40);
 	return alien;
 }
+
 var id = null;
 function myMove() {
-	let missile = new Sprite("images/laser.png", vaisseau.left,vaisseau.top,50);
-	missile.display = "none";
-	missile.left = vaisseau.left;
 	var pos = vaisseau.top;
-	missile.display = "block"
-  // clearInterval(id);
+	missile.display = "block";
   id = setInterval(frame, 10);
-	function frame() {
-    if (missile.top < -1 ) {
-			missile.display = "none";
-    } else if (missile.checkCollision(alien)) {
-    	alien.display = "none";
-    }
-     else {
-			// missile.display = "block";
+	function frame() { // fonction rafraissiant l'animation du missile
+		for (let j = 0;j < alien.length;j++){
+			if(missile.checkCollision(alien[j])){ //verifier la collision avec un missile et un alien
+				alien[j].display = "none";
+				missile.display = "none";
+				clearInterval(id);
+			}
+		}
+		 if (missile.top < -1) {
+				missile.display = "none";
+				clearInterval(id);
+			} else {
 			pos -= 10;
       missile.top = pos;
     }
-	}
+}
 }
 
 Sprite.prototype.checkCollision = function (other){
@@ -130,8 +118,11 @@ document.onkeydown = function (event) {
 		default:
 	}
 	if (event.keyCode == 32){
-		myMove();
-
+		if(missile.display == "none"){
+			missile.top = vaisseau.top - vaisseau._node.height /2;
+			missile.left = vaisseau.left + vaisseau._node.width /3;
+			myMove();
+		}
 	}
 } else if (vaisseau.left < 0) {
 		vaisseau.left = 0;
