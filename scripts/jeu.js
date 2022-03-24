@@ -51,7 +51,7 @@ function Sprite(filename, abs,ord,size){
 
 //positionnement des sprites
 let alien = [];
-for (var k = 0; k < 18; k++) {
+for (var k = 0; k < 25; k++) {
 	alien.push(createAlien());
 }
 let vaisseau = new Sprite("images/vaisseau.png", document.body.clientWidth/2, 3*document.body.clientHeight/4,60);
@@ -69,6 +69,24 @@ function createAlien(){
 	let ramdompostop = getRandomInt(1,8);
 	let alien = new Sprite("images/invader.png",ramdompos*document.body.clientWidth/20,ramdompostop* document.body.clientHeight/12,40);
 	return alien;
+}
+
+function alienMoveRight(alien){
+	alien.left += 10;
+		if (alien.left > document.body.clientWidth-vaisseau._node.width){
+		//	alien.stopAnimation();
+			alien.top += 50;
+			//alien.startAnimation(moveAlienToLeft,40);
+		}
+}
+
+function alienMoveLeft(alien){
+	alien.left += 10;
+		if (alien.left > document.body.clientWidth-vaisseau._node.width){
+			//alien.stopAnimation();
+			alien.top += 50;
+			//alien.startAnimation(moveAlienToLeft,40);
+		}
 }
 
 var id = null;
