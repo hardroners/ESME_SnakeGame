@@ -47,8 +47,9 @@ function Sprite(filename, abs,ord,size){
 	this.top = ord;
 }
 
-
-
+var music = document.getElementById("music");
+var lasersound = document.getElementById("lasersound");
+var explosionsound = document.getElementById("explosionsound");
 //positionnement des sprites
 let alien = [];
 for (var k = 0; k < 25; k++) {
@@ -99,6 +100,7 @@ function myMove() {
 			if(missile.checkCollision(alien[j])){ //verifier la collision avec un missile et un alien
 				alien[j].display = "none";
 				missile.display = "none";
+				explosionsound.play();
 				clearInterval(id);
 			}
 		}
@@ -118,6 +120,8 @@ Sprite.prototype.checkCollision = function (other){
 
 //function qui détecte lorsque l'on appuie sur un bouton
 document.onkeydown = function (event) {
+	music.volume = 0.05;
+	music.play();
 	console.log(event.keyCode);
 	if (vaisseau.left >= 0 && vaisseau.left <= document.body.clientWidth - 100){
 		switch (event.keyCode) {
@@ -137,6 +141,7 @@ document.onkeydown = function (event) {
 	}
 	if (event.keyCode == 32){
 		if(missile.display == "none"){
+			lasersound.play();
 			missile.top = vaisseau.top - vaisseau._node.height /2;
 			missile.left = vaisseau.left + vaisseau._node.width /3;
 			myMove();
