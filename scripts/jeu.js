@@ -18,7 +18,7 @@ function Sprite(filename, abs,ord,size){
 		},
 		set: function(x){ //setter imposant une nouvelle valeur x
 			this._abs= x;
-			this._node.style.left= this._abs+"px";
+			this._node.style.left = this._abs+"px";
 		}
 	});
 
@@ -54,6 +54,7 @@ var explosionsound = document.getElementById("explosionsound");
 let alien = [];
 for (var k = 0; k < 25; k++) {
 	alien.push(createAlien());
+	alienMoveRight(alien[k]);
 }
 
 let vaisseau = new Sprite("images/vaisseau.png", document.body.clientWidth/2, 3*document.body.clientHeight/4,60);
@@ -72,24 +73,38 @@ function createAlien(){
 	let alien = new Sprite("images/invader.png",ramdompos*document.body.clientWidth/20,ramdompostop* document.body.clientHeight/12,40);
 	return alien;
 }
-
+let vitesse = 1;
 function alienMoveRight(alien){
-	alien.left += 10;
-		if (alien.left > document.body.clientWidth-vaisseau._node.width){
-		//	alien.stopAnimation();
-			alien.top += 50;
-			//alien.startAnimation(moveAlienToLeft,40);
-		}
+	clearInterval(frame);
+	id = setInterval(frame, 10);
+	function frame(){
+			if (alien.left > document.body.clientWidth - 100){
+				alien.top += 5;
+				alienMoveLeft(alien);
+				clearInterval(alien.left);
+			} else {
+				alien.left += vitesse;
+			}
+	}
 }
+
 
 function alienMoveLeft(alien){
-	alien.left += 10;
-		if (alien.left > document.body.clientWidth-vaisseau._node.width){
-			//alien.stopAnimation();
-			alien.top += 50;
-			//alien.startAnimation(moveAlienToLeft,40);
+
+	clearInterval(frame);
+	id = setInterval(frame, 10);
+	function frame(){
+		if (alien.left < 0){
+			alien.top += 5;
+			alienMoveRight(alien);
+			clearInterval(alien.left);
+		} else {
+			alien.left -= vitesse;
 		}
+	}
+
 }
+
 
 var id = null;
 function myMove() {
@@ -98,20 +113,20 @@ function myMove() {
   id = setInterval(frame, 10);
 	function frame() { // fonction rafraissiant l'animation du missile
 		for (let j = 0;j < alien.length;j++){
-			if(missile.checkCollision(alien[j])){ //verifier la collision avec un missile et un alien
-				alien[j].display = "none";
-				missile.display = "none";
-				explosionsound.play();
-				clearInterval(id);
+				if(missile.checkCollision(alien[j]) || alien[j].top >= vaisseau.top){ //verifier la collision avec un missile et un alien
+					alien[j].display = "none";
+					missile.display = "none";
+					explosionsound.play();
+					clearInterval(id);
+				}
 			}
-		}
-		 if (missile.top < -1) {
-				missile.display = "none";
-				clearInterval(id);
-			} else {
-			pos -= 10;
-      missile.top = pos;
-    }
+			 if (missile.top < -1) {
+					missile.display = "none";
+					clearInterval(id);
+				} else {
+				pos -= 10;
+	      missile.top = pos;
+	    }
 }
 }
 
