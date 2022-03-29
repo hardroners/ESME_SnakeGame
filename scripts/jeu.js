@@ -54,6 +54,7 @@ let alien = [];
 for (var k = 0; k < 18; k++) {
 	alien.push(createAlien());
 }
+
 let vaisseau = new Sprite("images/vaisseau.png", document.body.clientWidth/2, 3*document.body.clientHeight/4,60);
 let missile = new Sprite("images/laser.png", vaisseau.left + vaisseau._node.width/3,vaisseau.top,50);
 missile.display = "none";
