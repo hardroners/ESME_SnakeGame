@@ -6,7 +6,6 @@ function Sprite(filename, abs,ord,size){
 	this._node.style.position="absolute";
 	this._node.style.height=size + "px";
 	this._node.style.width="auto";
-	console.log(filename + "    "+abs+"  "+ ord);
 	document.body.appendChild(this._node);
 
 //implémentation des sprties en dynamique
@@ -47,19 +46,25 @@ function Sprite(filename, abs,ord,size){
 	this.top = ord;
 }
 
+Sprite.prototype.checkCollision = function (other){
+	return (( this.top + this._node.height > other.top) && (this.top<(other.top+other._node.height)) && (this.left+this._node.width>other.left) && (this.left<other.left+other._node.width))
+}
+
 var music = document.getElementById("music");
 var lasersound = document.getElementById("lasersound");
 var explosionsound = document.getElementById("explosionsound");
 //positionnement des sprites
-let alien = [];
-for (var k = 0; k < 25; k++) {
-	alien.push(createAlien());
-	alienMoveRight(alien[k]);
-}
+
 
 let vaisseau = new Sprite("images/vaisseau.png", document.body.clientWidth/2, 3*document.body.clientHeight/4,60);
 let missile = new Sprite("images/laser.png", vaisseau.left + vaisseau._node.width/3,vaisseau.top,50);
 missile.display = "none";
+
+let alien = [];
+for (var k = 0; k < 25; k++) {
+	alien.push(createAlien());
+
+}
 
 
 function getRandomInt(min, max) {
@@ -90,7 +95,6 @@ function alienMoveRight(alien){
 
 
 function alienMoveLeft(alien){
-
 	clearInterval(frame);
 	id = setInterval(frame, 10);
 	function frame(){
@@ -102,9 +106,7 @@ function alienMoveLeft(alien){
 			alien.left -= vitesse;
 		}
 	}
-
 }
-
 
 var id = null;
 function myMove() {
@@ -130,9 +132,10 @@ function myMove() {
 }
 }
 
-Sprite.prototype.checkCollision = function (other){
-	return (( this.top + this._node.height > other.top) && (this.top<(other.top+other._node.height)) && (this.left+this._node.width>other.left) && (this.left<other.left+other._node.width))
-}
+alien.forEach((item, i) => {
+	alienMoveRight(alien[i]);
+});
+
 
 //function qui détecte lorsque l'on appuie sur un bouton
 document.onkeydown = function (event) {
@@ -168,6 +171,6 @@ document.onkeydown = function (event) {
 	} else if (vaisseau.left > document.body.clientWidth - 100) {
 		vaisseau.left = document.body.clientWidth - 100;
 	}
-	}
+}
 
 // Z = 90, Q = 81, S = 83, D = 68, Space = 32;
