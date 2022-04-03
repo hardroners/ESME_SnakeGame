@@ -63,7 +63,10 @@ missile.display = "none";
 let alien = [];
 for (var k = 0; k < 25; k++) {
 	alien.push(createAlien());
+}
 
+for (var k =0;k < alien.length; k++){
+	alienMoveLeft(alien[k]);
 }
 
 
@@ -78,6 +81,7 @@ function createAlien(){
 	let alien = new Sprite("images/invader.png",ramdompos*document.body.clientWidth/20,ramdompostop* document.body.clientHeight/12,40);
 	return alien;
 }
+
 let vitesse = 1;
 function alienMoveRight(alien){
 	clearInterval(frame);
@@ -86,7 +90,7 @@ function alienMoveRight(alien){
 			if (alien.left > document.body.clientWidth - 100){
 				alien.top += 5;
 				alienMoveLeft(alien);
-				clearInterval(alien.left);
+				//clearInterval(alien.left);
 			} else {
 				alien.left += vitesse;
 			}
@@ -101,7 +105,7 @@ function alienMoveLeft(alien){
 		if (alien.left < 0){
 			alien.top += 5;
 			alienMoveRight(alien);
-			clearInterval(alien.left);
+			//clearInterval(alien.left);
 		} else {
 			alien.left -= vitesse;
 		}
@@ -117,7 +121,9 @@ function myMove() {
 		for (let j = 0;j < alien.length;j++){
 				if(missile.checkCollision(alien[j]) || alien[j].top >= vaisseau.top){ //verifier la collision avec un missile et un alien
 					alien[j].display = "none";
+					alien.splice(j,1);
 					missile.display = "none";
+					console.log(alien.length);
 					explosionsound.play();
 					clearInterval(id);
 				}
@@ -132,9 +138,9 @@ function myMove() {
 }
 }
 
-alien.forEach((item, i) => {
-	alienMoveRight(alien[i]);
-});
+// alien.forEach((item, i) => {
+// 	alienMoveRight(alien[i]);
+// });
 
 
 //function qui détecte lorsque l'on appuie sur un bouton
