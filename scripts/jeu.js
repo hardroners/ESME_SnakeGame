@@ -121,7 +121,7 @@ function myMove() {
 		for (let j = 0;j < alien.length;j++){
 				if(missile.checkCollision(alien[j]) || alien[j].top >= vaisseau.top){ //verifier la collision avec un missile et un alien
 					alien[j].display = "none";
-					alien.splice(j,1);
+					 alien.splice(j,1);
 					missile.display = "none";
 					console.log(alien.length);
 					explosionsound.play();
@@ -137,11 +137,6 @@ function myMove() {
 	    }
 }
 }
-
-// alien.forEach((item, i) => {
-// 	alienMoveRight(alien[i]);
-// });
-
 
 //function qui détecte lorsque l'on appuie sur un bouton
 document.onkeydown = function (event) {
