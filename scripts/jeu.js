@@ -49,7 +49,8 @@ function Sprite(filename, abs,ord,size){
 Sprite.prototype.checkCollision = function (other){
 	return (( this.top + this._node.height > other.top) && (this.top<(other.top+other._node.height)) && (this.left+this._node.width>other.left) && (this.left<other.left+other._node.width))
 }
-
+var armyRows = 5;
+var armyColumns = 7;
 var music = document.getElementById("music");
 var lasersound = document.getElementById("lasersound");
 var explosionsound = document.getElementById("explosionsound");
@@ -61,9 +62,7 @@ let missile = new Sprite("images/laser.png", vaisseau.left + vaisseau._node.widt
 missile.display = "none";
 
 let alien = [];
-for (var k = 0; k < 25; k++) {
-	alien.push(createAlien());
-}
+createAlien();
 
 for (var k =0;k < alien.length; k++){
 	alienMoveLeft(alien[k]);
@@ -76,11 +75,22 @@ function getRandomInt(min, max) {
 
 
 function createAlien(){
-	let ramdompos = getRandomInt(1,18);
-	let ramdompostop = getRandomInt(1,8);
-	let alien = new Sprite("images/invader.png",ramdompos*document.body.clientWidth/20,ramdompostop* document.body.clientHeight/12,40);
+	// let ramdompos = getRandomInt(1,18);
+	// let ramdompostop = getRandomInt(1,8);
+	// let alien = new Sprite("images/invader.png",ramdompos*document.body.clientWidth/20,ramdompostop* document.body.clientHeight/12,40);
+	// return alien;
+
+	for (let i = 0; i < armyRows; i++) {
+		for(let j = 0; j < armyColumns; j++){
+			//let soldier = alien[i][j];
+			let alien1 = new Sprite("images/invader.png",i*document.body.clientWidth/20,j* document.body.clientHeight/12,40);
+			alien.push(alien1);
+		}
+	}
 	return alien;
 }
+
+
 
 let vitesse = 1;
 function alienMoveRight(alien){
@@ -121,7 +131,8 @@ function myMove() {
 		for (let j = 0;j < alien.length;j++){
 				if(missile.checkCollision(alien[j]) || alien[j].top >= vaisseau.top){ //verifier la collision avec un missile et un alien
 					alien[j].display = "none";
-					 alien.splice(j,1);
+					console.log("j'ai délete l'alien "+ j);
+					alien.splice(j,1);
 					missile.display = "none";
 					console.log(alien.length);
 					explosionsound.play();
@@ -141,7 +152,7 @@ function myMove() {
 //function qui détecte lorsque l'on appuie sur un bouton
 document.onkeydown = function (event) {
 	music.volume = 0.05;
-	music.play();
+	//  music.play();
 	console.log(event.keyCode);
 	if (vaisseau.left >= 0 && vaisseau.left <= document.body.clientWidth - 100){
 		switch (event.keyCode) {
