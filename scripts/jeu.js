@@ -1,3 +1,21 @@
+let scoreBlock;
+let score = 0;
+var armyRows = 1;
+var armyColumns = 5;
+var idMissile = null;
+var idAlien = null;
+var music = document.getElementById("music");
+var lasersound = document.getElementById("lasersound");
+var explosionsound = document.getElementById("explosionsound");
+//positionnement des sprites
+
+
+let vaisseau = new Sprite("images/vaisseau.png", document.body.clientWidth/2, 3*document.body.clientHeight/4,60);
+
+
+let alien = [];
+createAlien();
+
 //fonction permettant de placer tous les sprites sprite
 function Sprite(filename, abs,ord,size){
 	this._node = document.createElement("img"); // les annontations _node sont des variables privées ou locales
@@ -50,21 +68,7 @@ function Sprite(filename, abs,ord,size){
 Sprite.prototype.checkCollision = function (other){
 	return (( (this.top + this._node.height) > other.top) && (this.top<(other.top+other._node.height)) && ((this.left+this._node.width)>other.left) && (this.left<(other.left+other._node.width)))
 }
-var armyRows = 15;
-var armyColumns = 7;
-var idMissile = null;
-var idAlien = null;
-var music = document.getElementById("music");
-var lasersound = document.getElementById("lasersound");
-var explosionsound = document.getElementById("explosionsound");
-//positionnement des sprites
 
-
-let vaisseau = new Sprite("images/vaisseau.png", document.body.clientWidth/2, 3*document.body.clientHeight/4,60);
-
-
-let alien = [];
-createAlien();
 
 // for (var k =0;k < alien.length; k++){
 // 	alienMoveLeft(alien[k]);
@@ -133,6 +137,8 @@ function myMove(missile) {
 		for (let j = 0;j < alien.length;j++){
 			if(missile.checkCollision(alien[j]) && missile.display == "block" ){ //verifier la collision avec un missile et un alien
 				alien[j].position = "fixed";
+				score += 100;
+				drawScore();
 				clearInterval(idMissile);
 				missile.display = "none";
 				alien[j].display = "none";
@@ -140,6 +146,11 @@ function myMove(missile) {
 				console.log(alien.length);
 				explosionsound.play();
 				alien.splice(j,1);
+				if (alien.length == 0) {
+					alert("Vous avez éliminé tous les aliens");
+					alert("le jeu va reprendre !!");
+					location.reload();
+				}
 			}
 		} if (missile.top < -1) {
 				missile.display = "none";
@@ -151,9 +162,15 @@ function myMove(missile) {
 }
 }
 
+scoreBlock = document.querySelector(".game-score .score-count");
+function drawScore(){
+	scoreBlock.innerHTML = score;
+}
+
 //function qui détecte lorsque l'on appuie sur un bouton
 document.onkeydown = function (event) {
 	music.volume = 0.05;
+	drawScore();
 	//  music.play();
 	//console.log(event.keyCode);
 	if (vaisseau.left >= 0 && vaisseau.left <= document.body.clientWidth - 100){
@@ -186,5 +203,7 @@ document.onkeydown = function (event) {
 		vaisseau.left = document.body.clientWidth - 100;
 	}
 }
+
+
 
 // Z = 90, Q = 81, S = 83, D = 68, Space = 32;

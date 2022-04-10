@@ -17,3 +17,21 @@ audio {
    border-top-right-radius: 0.5em 0.5em;
    border-bottom-right-radius: 1em 0.7em;
 }
+
+.game-score {
+	padding: 10px 15px;
+	max-width: 160px;
+	height: 50px;
+	background: #121214;
+	border-radius: 5px;
+
+
+	display: flex;
+	justify-content: bottom center;
+	align-items: center;
+}
+.score-count{
+	font-size: 3vmin;
+	color: #FFFFFF;
+	font-weight: bold;
+}
