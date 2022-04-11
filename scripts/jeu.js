@@ -1,7 +1,7 @@
 let scoreBlock;
 let score = 0;
-var armyRows = 1;
-var armyColumns = 5;
+var armyRows = 10;
+var armyColumns = 2;
 var idMissile = null;
 var idAlien = null;
 var music = document.getElementById("music");
@@ -108,6 +108,10 @@ function alienMoveRight(alien){
 
 				//clearInterval(id);
 			}
+			if (alien.top > vaisseau.top && alien.display == "block") {
+				alert("vous avez perdu");
+				location.reload();
+			}
 	}
 }
 
@@ -136,7 +140,8 @@ function myMove(missile) {
 	function frame() { // fonction rafraissiant l'animation du missile
 		for (let j = 0;j < alien.length;j++){
 			if(missile.checkCollision(alien[j]) && missile.display == "block" ){ //verifier la collision avec un missile et un alien
-				alien[j].position = "fixed";
+				alien[j].top = 100;
+				alien[j].left = 100;
 				score += 100;
 				drawScore();
 				clearInterval(idMissile);
@@ -171,7 +176,7 @@ function drawScore(){
 document.onkeydown = function (event) {
 	music.volume = 0.05;
 	drawScore();
-	//  music.play();
+	music.play();
 	//console.log(event.keyCode);
 	if (vaisseau.left >= 0 && vaisseau.left <= document.body.clientWidth - 100){
 		switch (event.keyCode) {
