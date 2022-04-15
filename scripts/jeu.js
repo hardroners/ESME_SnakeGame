@@ -1,7 +1,7 @@
 let scoreBlock;
 let score = 0;
 var armyRows = 10;
-var armyColumns = 2;
+var armyColumns = 8;
 var idMissile = null;
 var idAlien = null;
 var music = document.getElementById("music");
@@ -82,8 +82,8 @@ let missile = new Sprite("images/laser.png", vaisseau.left + vaisseau._node.widt
 missile.display = "none";
 
 function createAlien(){
-	for (let i = 0; i < armyRows; i++) {
-		for(let j = 0; j < armyColumns; j++){
+	for (let i = 2; i < armyRows; i++) {
+		for(let j = 1; j < armyColumns; j++){
 			let alien1 = new Sprite("images/invader.png",i*document.body.clientWidth/20,j* document.body.clientHeight/12,40);
 			alien.push(alien1);
 			alienMoveRight(alien1);
@@ -107,10 +107,6 @@ function alienMoveRight(alien){
 				alien.left += vitesse;
 
 				//clearInterval(id);
-			}
-			if (alien.top > vaisseau.top && alien.display == "block") {
-				alert("vous avez perdu");
-				location.reload();
 			}
 	}
 }
@@ -154,6 +150,10 @@ function myMove(missile) {
 				if (alien.length == 0) {
 					alert("Vous avez éliminé tous les aliens");
 					alert("le jeu va reprendre !!");
+					location.reload();
+				}
+				if (vaisseau.checkCollision(alien[j]) || alien[j].top > vaisseau.top ){
+					alert("vous avez perdu");
 					location.reload();
 				}
 			}
